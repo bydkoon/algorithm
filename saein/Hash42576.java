@@ -27,11 +27,4 @@ public class Hash42576 {
         }
         return failed;
     }
-
-    public static void main(String[] args){
-        String[] participants = {"mislav", "stanko", "mislav", "ana"};
-        String[] completions = {"stanko", "ana", "mislav"};
-        String k = setSolution(participants,completions);
-        System.out.println(k);
-    }
 }
