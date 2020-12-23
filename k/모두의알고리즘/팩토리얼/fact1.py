@@ -27,22 +27,23 @@ def fact3(n):
     return fact3(n)
 
 
-# print(fact3([1, 2, 60, 40, 130]))
+print(fact3([1, 2, 60, 40, 130]))
 
-# print(fact2(5))
+print(fact2(5))
 
+"""동명이인 찾기 """
 
 
 def findFact(a):
     result = set()
     n = len(a)
-    for i in range(0, n -1):
+    for i in range(0, n - 1):
         for j in range(i + 1, n):
             if a[i] == a[j]:
                 result.add(a[i])
 
     return result
 
-if __name__ =="__main__":
-    a = ["Apple", "Computer", "Apple", "Bag"]
-    print(findFact(a))
+
+a = ["Apple", "Computer", "Apple", "Bag"]
+print(findFact(a))
