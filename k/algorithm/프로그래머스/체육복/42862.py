@@ -40,5 +40,19 @@ n	lost	reserve	   return
 
 
 def solution(n, lost, reserve):
-    answer = 0
-    return answer
+    #잃어버린 사람들중 여분의 체육복을 가지고 있는지 확인
+    _reserve: list = [r for r in reserve if r not in lost]
+    _lost: list = [l for l in lost if l not in reserve]
+
+    for r in _reserve:
+        f = r - 1
+        b = r + 1
+        if f in _lost:
+            _lost.remove(f)
+        elif b in _lost:
+            _lost.remove(b)
+
+    return n - len(_lost)
+
+if __name__ == "__main__":
+    print(solution(5,[2,4], [1,3,5]))
