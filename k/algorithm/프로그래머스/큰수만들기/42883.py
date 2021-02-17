@@ -55,17 +55,48 @@ number = “4177252841”, k = 4
 
 
 def solution(number, k):
-    #number = 1924
-    #k = 2
-    for i , num in enumerate(number):
-        # while len()
+    # number = 1924
+    # k = 2
+    collected = []
+    # 문자열에도 모을 수 있지만 문자열은 immutable(값이 변하지 않는)특성을 가지기에 코드 효율은 리스트(mutable)가 더 좋다
+    for i, num in enumerate(number):
+        # 1. 맨 마지막 문자만 비교를 한다. 지금까지 원칙을 지켜서 쌓아 왔다면 지금까지 쌓인 숫자들은 내림차순으로 되어있다.
+        # 2. collected 의 마지막 원소는 한 문자로 이루어진 문자열이다. num 또한 한 글자 짜리 문자열이다. 이걸 정수로 변환하지 않고,
+        # 두개의 문자열에 대해서 대소관계를 이용해도 괜찮은가? -> 괜찮다. 알파벳 순서에 따르면 0은 1보다 작고, 3은 2보다 크고, 수의 크기 대소관계와 같다.
+        # ※ 길이가 2 이상이라면, 사전에 나타난 숫자가 되겠지만, 지금은 한글자 짜리기 때문에 정수 변환이 필요없다.
 
-    answer = ''
+        while len(collected) > 0 and collected[-1] < num and k > 0:
+            collected.pop()
+            k -= 1
+        if k == 0:
+            collected += list(number[i:])
+            break
+        collected.append(num)
+    collected = collected[:-k] if k > 0 else collected
+    # k 가 0이면 빈 리스트가 되기 때문에 if를 이용하여 조건을 걸어둠
+    answer = ''.join(collected)
     return answer
 
 
-if __name__ == "__main__":
+"""
 
-    number = 1924
+n에 비례하는 linear time
+3행에서 시작하는 for 순환문이 solution 함수의 복잡도를 결정하는 가장 바깥의 loop 이다.
+number 라는 문자열에서 한문자씩 꺼내는 동작을 한다.
+그 안에 4행에서 시작하는 while 순환문이 또 들어있다. 이중 순환문
+이 while 을 얼만큼 실행되는냐에 따라 복잡도가 결정된다.
+n^2 혹은 n^2/2에 비례한다고 잘못 생각할 수도 있지만, 이 알고리즘은 number 라는 문자열에서 한 글자씩 꺼냈을 때, 
+collected 에 추가되는 횟수도 한번, 추가되었다고 도로 빠져나왔다고 해도 기껏해야 한번 나가기 때문에,
+전체 솔루션 함수 전체를 이루는 for 순환문은 반복하는 횟수는, 그에 따른 알고리즘의 복잡도는 O(N)이 된다.
+앞에서 행위를 결정하는 것이, 끝났을 때의 최적성에 영향을 미치지 않음이 보장되는 경우.
+이 문제에서는 그게 왜 보장되냐하면, 큰 수를 앞에 놓는 것이 무조건 유리하기 때문이다.
+이러한 경우에는, 지금 본 것처럼 모든 조합을 다 조사하지 않고도, 한 단계 단계 마다, 그리디 하게 풀 수 있다.
+
+https://train-validation-test.tistory.com/entry/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-level-2-%ED%81%B0-%EC%88%98-%EB%A7%8C%EB%93%A4%EA%B8%B0-%ED%8C%8C%EC%9D%B4%EC%8D%AC
+
+"""
+
+if __name__ == "__main__":
+    number = "1924"
     k = 2
     print(solution(number, k))
